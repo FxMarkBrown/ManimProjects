@@ -35,25 +35,25 @@ class iintSimulation(ThreeDScene):
         #   获取二维点集数学物件列表，用于显示函数上的点，步长n将从1到4逐渐变密（步长变短）
         #   1/5步长
         func_dot = VGroup(*list(
-            Dot((i / 5, f(i/5), 0))
+            Dot((i / 5, f(i / 5), 0))
             .scale(.5)
             .set_color(RED)
             for i in range(-20, 20)))
         #   1/10步长
         func_dot2 = VGroup(*list(
-            Dot((i / 10, f(i/10), 0))
+            Dot((i / 10, f(i / 10), 0))
             .scale(.5)
             .set_color(RED)
             for i in range(-40, 40)))
         #   1/20步长
         func_dot3 = VGroup(*list(
-            Dot((i / 20, f(i/20), 0))
+            Dot((i / 20, f(i / 20), 0))
             .scale(.5)
             .set_color(RED)
             for i in range(-80, 80)))
         #   1/40步长
         func_dot4 = VGroup(*list(
-            Dot((i / 40, f(i/40), 0))
+            Dot((i / 40, f(i / 40), 0))
             .scale(.5)
             .set_color(RED)
             for i in range(-160, 160)))
@@ -112,35 +112,35 @@ class iintSimulation(ThreeDScene):
         #   构建完毕后将列表内的这些小矩形填充在函数下方(填充时移动矩形到函数下方(移动时以矩形中心即高/2为参考))，(-3,0的区间内)
         #   之后让n分别取7,14,29,59，模拟n趋于无穷时矩形变的无限窄的效果
         intRectangle = VGroup(*list(
-            Rectangle(width=3 / 7, height=f(-3 * i/7),
+            Rectangle(width=3 / 7, height=f(-3 * i / 7),
                       color=BLUE, stroke_width=0) for i in range(0, 8)))
         for i in range(0, 8):
             intRectangle[i].move_to(
-                (-3 * i / 7, f(-3 * i/7)/2, 0))
+                (-3 * i / 7, f(-3 * i / 7) / 2, 0))
             intRectangle[i].set_fill(BLUE, opacity=0.5)
 
         intRectangle2 = VGroup(*list(
-            Rectangle(width=3 / 14, height=f(-3 * i/14),
+            Rectangle(width=3 / 14, height=f(-3 * i / 14),
                       color=BLUE, stroke_width=0) for i in range(0, 15)))
         for i in range(0, 15):
             intRectangle2[i].move_to(
-                (-3 * i / 14, f(-3 * i/14)/2, 0))
+                (-3 * i / 14, f(-3 * i / 14) / 2, 0))
             intRectangle2[i].set_fill(BLUE, opacity=0.5)
 
         intRectangle3 = VGroup(*list(
-            Rectangle(width=3 / 29, height=f(-3 * i/29),
+            Rectangle(width=3 / 29, height=f(-3 * i / 29),
                       color=BLUE, stroke_width=0) for i in range(0, 30)))
         for i in range(0, 30):
             intRectangle3[i].move_to(
-                (-3 * i / 29, f(-3 * i/29)/2, 0))
+                (-3 * i / 29, f(-3 * i / 29) / 2, 0))
             intRectangle3[i].set_fill(BLUE, opacity=0.5)
 
         intRectangle4 = VGroup(*list(
-            Rectangle(width=3 / 59, height=f(-3 * i/59),
+            Rectangle(width=3 / 59, height=f(-3 * i / 59),
                       color=BLUE, stroke_width=0) for i in range(0, 60)))
         for i in range(0, 60):
             intRectangle4[i].move_to(
-                (-3 * i / 59, f(-3 * i/59)/2, 0))
+                (-3 * i / 59, f(-3 * i / 59) / 2, 0))
             intRectangle4[i].set_fill(BLUE, opacity=0.5)
 
         #   下面开始演示
@@ -226,6 +226,9 @@ class iintSimulation(ThreeDScene):
         #   下面开始旋转摄像机，因为创建的是3D场景，默认摄像机看向的是xoy平面，但旋转摄像机后就可以看到z轴
 
         #   构建二重积分的被积函数
+        def f3d(u, v):
+            return np.cos(u) + np.sin(v) + 2
+
         fxy_graph3d = Surface(
             lambda u, v: np.array([
                 u,
@@ -238,54 +241,55 @@ class iintSimulation(ThreeDScene):
         self.move_camera(phi=70 * DEGREES, theta=-37 * DEGREES)
         #   旋转视角，并让之前的符号淡出
         self.begin_ambient_camera_rotation(rate=0.007)
-        self.play(FadeOut(func_graph), FadeOut(intRectangle4), FadeOut(integral), FadeOut(section_a), FadeOut(section_b),
+        self.play(FadeOut(func_graph), FadeOut(intRectangle4), FadeOut(integral), FadeOut(section_a),
+                  FadeOut(section_b),
                   FadeOut(pinkline))
 
-        #   预先构建的逼近二重积分(实际上积分区域大致为x从-3到0)的函数下方面积的小长方体intRectangle1到4
+        #   预先构建的逼近二重积分(实际上积分区域为[1,3]x[-1,-3])的函数下方面积的小长方体intRectangle1到4
         #   每个小矩形长宽为 1/n，高为f(i/n)，构建完成后放入列表
-        #   构建完毕后将列表内的这些小矩形填充在函数下方，([1,2]x[1,2]的区间内)
+        #   构建完毕后将列表内的这些小矩形填充在函数下方的区间内
         #   之后让n分别取5,10,20,40，模拟n趋于无穷时矩形变的无限窄的效果
         iintPrism = VGroup(*list(
             VGroup(*list(
-                Prism(dimensions=(1 / 5, -(1 / 5), np.cos(1 + i / 5) * np.sin(1 + j / 5) + 2), stroke_width=0)
+                Prism(dimensions=(1 / 5, 1 / 5, f3d(1 + i / 5, -(1 + j / 5))), stroke_width=0)
                 for i in range(0, 11))) for j in range(0, 11)))
         for i in range(0, 11):
             for j in range(0, 11):
-                iintPrism[j][i].move_to((1 + i / 5, -(1 + j / 5), (np.cos(1 + i / 5) * np.sin(1 + j / 5) + 2) / 2))
+                iintPrism[j][i].move_to((1 + i / 5, -(1 + j / 5), f3d(1 + i / 5, -(1 + j / 5)) / 2))
         iintPrism.set_color_by_gradient(ORANGE, PURPLE)
 
         iintPrism2 = VGroup(*list(VGroup(*list(
-            Prism(dimensions=(1 / 10, -(1 / 10), np.cos(1 + i / 10) * np.sin(1 + j / 10) + 2),
+            Prism(dimensions=(1 / 10, 1 / 10, f3d(1 + i / 10, -(1 + j / 10))),
                   stroke_width=0)
             for i in range(0, 21))) for j in range(0, 21)))
         for i in range(0, 21):
             for j in range(0, 21):
-                iintPrism2[j][i].move_to((1 + i / 10, -(1 + j / 10), (np.cos(1 + i / 10) * np.sin(1 + j / 10) + 2) / 2))
+                iintPrism2[j][i].move_to((1 + i / 10, -(1 + j / 10), f3d(1 + i / 10, -(1 + j / 10)) / 2))
         iintPrism2.set_color_by_gradient(ORANGE, PURPLE)
 
         iintPrism3 = VGroup(*list(
             VGroup(*list(
-                Prism(dimensions=(1 / 20, -(1 / 20), np.cos(1 + i / 20) * np.sin(1 + j / 20) + 2), stroke_width=0)
+                Prism(dimensions=(1 / 20, 1 / 20, f3d(1 + i / 20, -(1 + j / 20))), stroke_width=0)
                 for i in range(0, 41))) for j in range(0, 41)))
         for i in range(0, 41):
             for j in range(0, 41):
-                iintPrism3[j][i].move_to((1 + i / 20, -(1 + j / 20), (np.cos(1 + i / 20) * np.sin(1 + j / 20) + 2) / 2))
+                iintPrism3[j][i].move_to((1 + i / 20, -(1 + j / 20), f3d(1 + i / 20, -(1 + j / 20)) / 2))
         iintPrism3.set_color_by_gradient(ORANGE, PURPLE)
 
         iintPrism4 = VGroup(*list(
             VGroup(*list(
-                Prism(dimensions=(1 / 40, -(1 / 40), np.cos(1 + i / 40) * np.sin(1 + j / 40) + 2),
+                Prism(dimensions=(1 / 40, 1 / 40, f3d(1 + i / 40, -(1 + j / 40))),
                       stroke_width=0)
                 for i in range(0, 81))) for j in range(0, 81)))
         for i in range(0, 81):
             for j in range(0, 81):
-                iintPrism4[j][i].move_to((1 + i / 40, -(1 + j / 40), (np.cos(1 + i / 40) * np.sin(1 + j / 40) + 2) / 2))
+                iintPrism4[j][i].move_to((1 + i / 40, -(1 + j / 40), f3d(1 + i / 40, -(1 + j / 40)) / 2))
         iintPrism4.set_color_by_gradient(ORANGE, PURPLE)
 
         #   预构建小长方体升起的效果
         p0 = VGroup(*list(
             VGroup(*list(
-                Prism(dimensions=(1 / 5, -(1 / 5), .01 + 0 * i * j),
+                Prism(dimensions=(1 / 5, 1 / 5, .01 + 0 * i * j),
                       stroke_width=0)
                 for i in range(0, 11))) for j in range(0, 11)))
         for i in range(0, 11):
@@ -298,11 +302,11 @@ class iintSimulation(ThreeDScene):
         #   点集从(1,1)开始，xy公差为1/3增加，画10x10=100个点
         planedot = VGroup(*list(
             VGroup(*list(
-                Dot((1 + i / 3, 1 + j / 3, 0)).scale(.2)
+                Dot((1 + i / 3, -(1 + j / 3), 0)).scale(.2)
                 for i in range(0, 11))) for j in range(0, 11))).set_color(BLUE)
         #   创建平行于z轴的虚线，并加文字
-        dashedline3d_z = (DashedLine((1 + 5 / 3, 1 + 5 / 3 - 3.5, 0),
-                                     (1 + 5 / 3, -(1 + 5 / 3), np.cos(1 + 5 / 3) * np.sin(1 + 5 / 3) + 2))
+        dashedline3d_z = (DashedLine((2 + 5 / 3, 1 + 3 / 5 - 2.5, 0),
+                                     (2 + 5 / 3, 1 + 3 / 5 - 2.5, f3d(2 + 3 / 5, 1 + 3 / 5 - 2.5)))
                           .set_color(YELLOW))
         fxy3d = (Tex(r"f(x,y)")
                  .scale(.5)
@@ -345,7 +349,7 @@ class iintSimulation(ThreeDScene):
         for i in range(0, 11):
             for j in range(0, 11):
                 self.play(planedot[j][i]
-                          .animate.shift((np.cos(1 + i / 3) * np.sin(1 + j / 3) + 2) * Z_AXIS),
+                          .animate.shift(f3d(1 + i / 3, -(1 + j / 3)) * Z_AXIS),
                           run_time=.05)
         self.wait(3)
         #   创建f(x,y)曲面
@@ -371,7 +375,7 @@ class iintSimulation(ThreeDScene):
         self.play(ReplacementTransform(p0[5][5], iintPrism[5][5], run_time=3))
         #   创建大括号和文字
         brace_refdot = Dot((0, 0, 0))
-        brace_refdot2 = Dot((np.cos(1 + 5 / 10) * np.sin(1 + 5 / 10) + 2, 0, 0))
+        brace_refdot2 = Dot((f3d(1 + 5 / 5, -(1 + 5 / 5)), 0, 0))
         brace_ref = VGroup(brace_refdot, brace_refdot2)
         brace = (Brace(mobject=brace_ref, direction=DOWN, buff=0)
                  .rotate(PI / 2, axis=Y_AXIS)
