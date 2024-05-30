@@ -412,3 +412,26 @@ class iintSimulation(ThreeDScene):
         self.play(FadeIn(iintTex, shift=DOWN))
         self.begin_ambient_camera_rotation(rate=0.01)
         self.wait(5)
+
+        self.remove(iintTex)
+        self.move_camera(phi=70 * DEGREES, theta=-37 * DEGREES, zoom=0.75)
+        #   展示体积加和
+        sigma = (MathTex(r"\iint_D f(x,y)dxdy=V_1+V_2+V_3+V_4+V_5+V_6+V_7+...")
+                 .scale(0.7)
+                 .move_to(3 * RIGHT + 3 * UP + 1 * Z_AXIS)
+                 .rotate(PI / 2, axis=X_AXIS).rotate(PI / 3, axis=Z_AXIS))
+        question = (Text(r"难道要计算无数个小长方体的体积吗?!")
+                    .scale(0.7)
+                    .move_to(3 * RIGHT + 3 * UP + 2.5 * Z_AXIS)
+                    .rotate(PI / 2, axis=X_AXIS).rotate(PI / 3, axis=Z_AXIS))
+        self.play(Create(question))
+        self.play(FadeIn(sigma))
+        for i in range(0, 7):
+            self.play(iintPrism4[i][10].animate.scale(1.2))
+            self.play(iintPrism4[i][10].animate.scale(0.83),
+                      TransformFromCopy(iintPrism4[i][10], sigma[0][14 + 3 * i:16 + 3 * i]))
+        answer = (Text(r"当然不是!").scale(0.7)
+                  .move_to(3 * RIGHT + 3 * UP + 2.5 * Z_AXIS)
+                  .rotate(PI / 2, axis=X_AXIS).rotate(PI / 3, axis=Z_AXIS))
+        self.play(ReplacementTransform(question, answer))
+        self.wait(2)
