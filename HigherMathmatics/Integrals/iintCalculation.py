@@ -189,7 +189,7 @@ class iintCalculation(ThreeDScene):
                 1,
                 v,
                 u,
-            ]), v_range=(-4, 4), u_range=(-4, 4), checkerboard_colors=[BLUE_D, BLUE_E],
+            ]), v_range=(-2, 6), u_range=(-4, 4), checkerboard_colors=[BLUE_D, BLUE_E],
             resolution=(30, 63)).fade(.7)
         tangentplane.rotate(PI / 2, axis=X_AXIS).move_to(circleD.get_center() + 0.43 * LEFT + .3 * Z_AXIS).set_fill(
             BLUE)
