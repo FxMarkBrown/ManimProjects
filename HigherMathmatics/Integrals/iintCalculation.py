@@ -1,6 +1,8 @@
 from manim import *
 
+
 #   二重积分化为二次积分
+# noinspection PyTypeChecker
 class iintCalculation1(ThreeDScene):
 
     def construct(self):
@@ -290,8 +292,10 @@ class iintCalculation1(ThreeDScene):
                   Create(plot_tangen2, run_time=6), Create(plot_tangent3, run_time=6), rate_func=linear, run_time=6)
         self.stop_ambient_camera_rotation()
 
+
 #   二重化二次（D为两条曲线之间区域的情况）
 class iintCalculation2(ThreeDScene):
+    # noinspection PyTypeChecker
     def construct(self):
         iint_section1 = MathTex(r"\int_a^b\int_{g_1(x)}^{g_2(x)} f(x,y) dxdy").scale(2)
         iint_section1[0][0:3].shift(.3 * RIGHT)
@@ -345,18 +349,24 @@ class iintCalculation2(ThreeDScene):
             Rectangle(width=4 / 58, height=-(-2 + 4 * i / 59) ** 2 / 4 - (-2 + 4 * i / 59) ** 2 / 2 + 3, color=BLUE,
                       stroke_width=0) for i in range(0, 60)))
         for i in range(0, 60):
-            curveplot[i].move_to((-2 + 4 * i / 59, ((-2 + 4 * i / 59) ** 2 / 4 - (-2 + 4 * i / 59) ** 2 / 2 + 3) / 2, 0))
+            curveplot[i].move_to(
+                (-2 + 4 * i / 59, ((-2 + 4 * i / 59) ** 2 / 4 - (-2 + 4 * i / 59) ** 2 / 2 + 3) / 2, 0))
             curveplot[i].set_fill(BLUE, opacity=0.5)
         curveD = VGroup(curve1, curve2, curveplot)
         curveD.shift(3 * RIGHT + .5 * UP)
         self.play(Create(curve1), FadeIn(curve1_tex))
         self.play(Create(curve2), FadeIn(curve2_tex))
         self.play(Create(curveplot))
-        self.play(TransformFromCopy(curve1_tex[0][0], iint_section1[0][9]), TransformFromCopy(curve1_tex[0][1], iint_section1[0][10]),
-                  TransformFromCopy(curve1_tex[0][2], iint_section1[0][11]), TransformFromCopy(curve1_tex[0][3], iint_section1[0][12]),
-                  TransformFromCopy(curve1_tex[0][4], iint_section1[0][13]), TransformFromCopy(curve2_tex[0][0], iint_section1[0][4]),
-                  TransformFromCopy(curve2_tex[0][1], iint_section1[0][5]), TransformFromCopy(curve2_tex[0][2], iint_section1[0][6]),
-                  TransformFromCopy(curve2_tex[0][3], iint_section1[0][7]), TransformFromCopy(curve2_tex[0][4], iint_section1[0][8]))
+        self.play(TransformFromCopy(curve1_tex[0][0], iint_section1[0][9]),
+                  TransformFromCopy(curve1_tex[0][1], iint_section1[0][10]),
+                  TransformFromCopy(curve1_tex[0][2], iint_section1[0][11]),
+                  TransformFromCopy(curve1_tex[0][3], iint_section1[0][12]),
+                  TransformFromCopy(curve1_tex[0][4], iint_section1[0][13]),
+                  TransformFromCopy(curve2_tex[0][0], iint_section1[0][4]),
+                  TransformFromCopy(curve2_tex[0][1], iint_section1[0][5]),
+                  TransformFromCopy(curve2_tex[0][2], iint_section1[0][6]),
+                  TransformFromCopy(curve2_tex[0][3], iint_section1[0][7]),
+                  TransformFromCopy(curve2_tex[0][4], iint_section1[0][8]))
         ax = DashedLine((1, 0, 0), (1, 1.5, 0)).set_color(YELLOW)
         bx = DashedLine((5, 0, 0), (5, 1.5, 0)).set_color(YELLOW)
         self.wait(1)
@@ -420,7 +430,7 @@ class iintCalculation2(ThreeDScene):
             lambda u, v: np.array([
                 u,
                 v,
-                np.cos(1.4*u+1)*np.sin(v+1)/2+3
+                np.cos(1.4 * u + 1) * np.sin(v + 1) / 2 + 3
             ]), v_range=(-2.2, 4.2), u_range=(-2.2, 2.2), checkerboard_colors=[BLUE_D, BLUE_E],
             resolution=(30, 63)).fade(.7)
         plane.shift(3 * RIGHT + .5 * UP)
@@ -467,9 +477,12 @@ class iintCalculation2(ThreeDScene):
         D[0][0].set_color(RED)
         D.next_to(k2, LEFT + .1 * Z_AXIS)
         self.play(FadeIn(k1), FadeIn(k2), FadeIn(C), FadeIn(D))
-        rect2 = VGroup(*list(Rectangle(width=1 / 30, height=np.cos(1.4 * .7 + 1) * np.sin(
-            (.7) ** 2 / 4 + (-(.7) ** 2 / 2 + 3 - (.7) ** 2 / 4) * i / 500 + 1) / 2 + 3, color=BLUE, stroke_width=0) for
-                             i in range(0, 500)))
+        rect2 = VGroup(*list(
+            Rectangle(width=1 / 30,
+                      height=np.cos(1.4 * .7 + 1) * np.sin(
+                          (.7) ** 2 / 4 + (-(.7) ** 2 / 2 + 3 - (.7) ** 2 / 4) * i / 500 + 1) / 2 + 3,
+                      color=BLUE, stroke_width=0)
+            for i in range(0, 500)))
         for i in range(0, 500):
             rect2[i].rotate(PI / 2, axis=X_AXIS)
             rect2[i].rotate(PI / 2, axis=Z_AXIS)
@@ -481,9 +494,11 @@ class iintCalculation2(ThreeDScene):
         rect2.shift(3 * RIGHT + .5 * UP)
         rect2.set_submobject_colors_by_gradient(GREEN, BLUE)
 
-        rect3 = VGroup(*list(Rectangle(width=1 / 30, height=np.cos(1.4 * 1.4 + 1) * np.sin(
-            (1.4) ** 2 / 4 + (-(1.4) ** 2 / 2 + 3 - (1.4) ** 2 / 4) * i / 500 + 1) / 2 + 3, color=BLUE, stroke_width=0)
-                             for i in range(0, 500)))
+        rect3 = VGroup(*list(
+            Rectangle(width=1 / 30, height=np.cos(1.4 * 1.4 + 1) * np.sin(
+                (1.4) ** 2 / 4 + (-(1.4) ** 2 / 2 + 3 - (1.4) ** 2 / 4) * i / 500 + 1) / 2 + 3, color=BLUE,
+                      stroke_width=0)
+            for i in range(0, 500)))
         for i in range(0, 500):
             rect3[i].rotate(PI / 2, axis=X_AXIS)
             rect3[i].rotate(PI / 2, axis=Z_AXIS)
@@ -499,7 +514,8 @@ class iintCalculation2(ThreeDScene):
         k4 = DashedLine((0, (3.7 - 3) ** 2 / 4 + .5, 0), (3.7, (3.7 - 3) ** 2 / 4 + .5, 0)).set_color(YELLOW)
 
         self.play(FadeOut(plane), ReplacementTransform(rect, rect2), ReplacementTransform(k1, k3),
-                  ReplacementTransform(k2, k4), C.animate.next_to(k3, LEFT + .1 * Z_AXIS), D.animate.next_to(k4, LEFT + .1 * Z_AXIS))
+                  ReplacementTransform(k2, k4), C.animate.next_to(k3, LEFT + .1 * Z_AXIS),
+                  D.animate.next_to(k4, LEFT + .1 * Z_AXIS))
         self.wait(1)
 
         k5 = DashedLine((0, -(4.4 - 3) ** 2 / 2 + 3.5, 0), (4.4, -(4.4 - 3) ** 2 / 2 + 3.5, 0)).set_color(YELLOW)
@@ -509,17 +525,19 @@ class iintCalculation2(ThreeDScene):
                   C.animate.next_to(k5, LEFT + .1 * Z_AXIS), D.animate.next_to(k6, LEFT + .1 * Z_AXIS))
         self.wait(1)
 
-        rect4 = VGroup(*list(Rectangle(width=1 / 30, height=np.cos(1.4 * 1.81 + 1) * np.sin(
-            (1.81) ** 2 / 4 + (-(1.81) ** 2 / 2 + 3 - (1.81) ** 2 / 4) * i / 500 + 1) / 2 + 3, color=BLUE,
-                                       stroke_width=0) for i in range(0, 500)))
+        rect4 = VGroup(*list(
+            Rectangle(width=1 / 30, height=np.cos(1.4 * 1.81 + 1) * np.sin((1.81) ** 2 / 4 + (-(1.81) ** 2 / 2 + 3 - (1.81) ** 2 / 4) * i / 500 + 1) / 2 + 3,
+                      color=BLUE,
+                      stroke_width=0)
+            for i in range(0, 500)))
         for i in range(0, 500):
             rect4[i].rotate(PI / 2, axis=X_AXIS)
             rect4[i].rotate(PI / 2, axis=Z_AXIS)
             rect4[i].set_shade_in_3d(True)
             rect4[i].set_fill(BLUE, opacity=0.5)
             rect4[i].move_to((1.81, (1.81) ** 2 / 4 + (-(1.81) ** 2 / 2 + 3 - (1.81) ** 2 / 4) * i / 500, (
-                        np.cos(1.4 * 1.81 + 1) * np.sin(
-                    (1.81) ** 2 / 4 + (-(1.81) ** 2 / 2 + 3 - (1.81) ** 2 / 4) * i / 500 + 1) / 2 + 3) / 2))
+                    np.cos(1.4 * 1.81 + 1) * np.sin(
+                (1.81) ** 2 / 4 + (-(1.81) ** 2 / 2 + 3 - (1.81) ** 2 / 4) * i / 500 + 1) / 2 + 3) / 2))
         rect4.shift(3 * RIGHT + .5 * UP)
         rect4.set_submobject_colors_by_gradient(GREEN, BLUE)
 
@@ -564,7 +582,7 @@ class iintCalculation2(ThreeDScene):
             u,
             np.cos(1.4 * (-2 + i / 62.5) + 1) * np.sin(u + 1) / 2 + 3
         ]), color=RED, t_range=((-2 + i / 62.5) ** 2 / 4, -(-2 + i / 62.5) ** 2 / 2 + 3,
-                                             )) for i in range(0, 250)))
+                                )) for i in range(0, 250)))
         g3.set_submobject_colors_by_gradient(BLUE, GREEN)
         g3.shift(3 * RIGHT + .5 * UP)
 
@@ -572,7 +590,7 @@ class iintCalculation2(ThreeDScene):
             linee = VGroup(*list(
                 Line((dx, dx ** 2 / 4, (np.cos(1.4 * dx + 1) * np.sin(dx ** 2 / 4 + 1) / 2 + 3) * i / 500), (
                     dx, -dx ** 2 / 2 + 3,
-                    (np.cos(1.4 * dx + 1) * np.sin((-dx ** 2 / 2 + 3)+1) / 2 + 3) * i / 500)) for i in
+                    (np.cos(1.4 * dx + 1) * np.sin((-dx ** 2 / 2 + 3) + 1) / 2 + 3) * i / 500)) for i in
                 range(0, 500)))
             linee.set_submobject_colors_by_gradient(BLUE, GREEN)
             linee.shift(3 * RIGHT + .5 * UP)
@@ -585,5 +603,253 @@ class iintCalculation2(ThreeDScene):
             c_c = l(dx)
             c.become(c_c)
 
-        self.play(UpdateFromAlphaFunc(c, update_area, run_time=6, rate_func=linear), Create(g1, run_time=6, rate_func=linear), Create(g2, run_time=6, rate_func=linear), Create(g3, run_time=6, rate_func=linear))
+        self.play(UpdateFromAlphaFunc(c, update_area, run_time=6, rate_func=linear),
+                  Create(g1, run_time=6, rate_func=linear), Create(g2, run_time=6, rate_func=linear),
+                  Create(g3, run_time=6, rate_func=linear))
+        self.wait(1)
+
+
+#   二重化二次（D为圆形区域的情况）
+class iintCalculation3(ThreeDScene):
+    # noinspection PyTypeChecker
+    def construct(self):
+        axes = ThreeDAxes()
+        grid = NumberPlane().set_stroke(WHITE, 0.1)
+        self.add(axes, grid)
+        self.wait(1)
+        c = Circle(radius=1.8).set_fill(color=BLUE, opacity=.6)
+        c.move_to((2.5, 2.1, 0))
+        c.set_color_by_gradient(PURPLE, ORANGE)
+        self.play(DrawBorderThenFill(c))
+        xc = DashedLine((2.5, 0, 0), (2.5, 2.1, 0)).set_color(YELLOW)
+        x = MathTex(r"x_c").next_to(xc, DOWN).set_color(YELLOW)
+        yc = DashedLine((0, 2.1, 0), (2.5, 2.1, 0)).set_color(YELLOW)
+        y = MathTex(r"y_c").next_to(yc, LEFT).set_color(YELLOW)
+        self.play(Create(xc), Create(yc), FadeIn(y), FadeIn(x))
+        self.wait(1)
+
+        def line(dr=PI / 6):
+            return Line((2.5, 2.1, 0), (2.5 + 1.8 * np.cos(dr), 2.1 + 1.8 * np.sin(dr), 0)).set_color(MAROON)
+
+        l = line()
+
+        def update_line(l, alpha):
+            dr = interpolate(PI / 6, TAU + PI / 6, alpha)
+            ll = line(dr)
+            l.become(ll)
+
+        r = MathTex(r"R").set_color(MAROON).move_to(l.get_center() + .4 * UP)
+        self.play(Create(l), FadeIn(r))
+        r.add_updater(lambda m: m.move_to(l.get_center() + .4 * UP))
+        self.play(UpdateFromAlphaFunc(l, update_line), run_time=3, rate_func=linear)
+        self.wait(1)
+
+        def puntox(t=PI / 6):
+            return DashedLine((2.5 + 1.8 * np.cos(t), 0, 0),
+                              (2.5 + 1.8 * np.cos(t), 2.1 + 1.8 * np.sin(t), 0)).set_color(ORANGE)
+
+        px = puntox()
+
+        def update_puntox(px, alpha):
+            t = interpolate(PI / 6, TAU + PI / 6, alpha)
+            ppx = puntox(t)
+            px.become(ppx)
+
+        def puntoy(t2=PI / 6):
+            return DashedLine((0, 2.1 + 1.8 * np.sin(t2), 0),
+                              (2.5 + 1.8 * np.cos(t2), 2.1 + 1.8 * np.sin(t2), 0)).set_color(ORANGE)
+
+        py = puntoy()
+
+        def update_puntoy(py, alpha):
+            t2 = interpolate(PI / 6, TAU + PI / 6, alpha)
+            ppy = puntoy(t2)
+            py.become(ppy)
+
+        punto = MathTex(r"(x,y)").next_to(px, UP).shift(.4 * RIGHT)
+        punto[0][1].set_color(ORANGE)
+        punto[0][3].set_color(ORANGE)
+
+        def linex(dx=PI / 6):
+            return Line((2.5, 2.1, 0), (2.5 + 1.8 * np.cos(dx), 2.1, 0)).set_color(RED)
+
+        lx = linex()
+
+        def liney(dy=PI / 6):
+            return Line((2.5 + 1.8 * np.cos(dy), 2.1, 0),
+                        (2.5 + 1.8 * np.cos(dy), 2.1 + 1.8 * np.sin(dy), 0)).set_color(RED)
+
+        ly = liney()
+
+        def update_linex(lx, alpha):
+            dx = interpolate(PI / 6, TAU + PI / 6, alpha)
+            llx = linex(dx)
+            lx.become(llx)
+
+        def update_liney(ly, alpha):
+            dy = interpolate(PI / 6, TAU + PI / 6, alpha)
+            lly = liney(dy)
+            ly.become(lly)
+
+        cos = MathTex(r"R\cos\theta").move_to(lx.get_center() + .2 * DOWN).scale(.7)
+        cos.add_updater(lambda m: m.move_to(lx.get_center() + .2 * DOWN))
+        cos[0].set_color(MAROON)
+        cos[1:5].set_color(RED)
+        self.play(FadeOut(r), Create(px), Create(py), FadeIn(punto))
+        self.wait(1)
+        self.play(TransformFromCopy(l, lx), FadeIn(cos))
+        sin = MathTex(r"R\sin\theta").move_to(ly.get_center() + .55 * RIGHT).scale(.7)
+        sin.add_updater(lambda m: m.move_to(ly.get_center() + .55 * RIGHT))
+        sin[0].set_color(MAROON)
+        sin[1:5].set_color(RED)
+        self.play(TransformFromCopy(l, ly), FadeIn(sin))
+        self.wait(1)
+        theta = Sector(radius=.5, start_angle=lx.get_angle(), angle=l.get_angle()).move_to(
+            c.get_center() + .5 * RIGHT + .23 * UP).set_color(YELLOW).fade(.7)
+        TH = MathTex(r"\theta").set_color(RED).scale(.7).move_to(theta.get_center() + .4 * RIGHT)
+        self.play(Create(theta), FadeIn(TH))
+        self.wait(1)
+        self.play(FadeOut(theta), FadeOut(TH))
+        self.play(UpdateFromAlphaFunc(px, update_puntox), UpdateFromAlphaFunc(py, update_puntoy),
+                  UpdateFromAlphaFunc(l, update_line), UpdateFromAlphaFunc(lx, update_linex),
+                  UpdateFromAlphaFunc(ly, update_liney), run_time=5, rate_func=linear)
+        self.wait(1)
+        ly2 = ly.copy()
+        lx2 = lx.copy()
+        xc2 = xc.copy()
+        yc2 = yc.copy()
+        self.play(yc2.animate.shift((2.1) * DOWN), lx2.animate.shift(2.1 * DOWN))
+        xx = VGroup(yc2, lx2, x)
+        b = Brace(mobject=xx, direction=DOWN).set_color(ORANGE)
+        t = b.get_tex(r"x=x_c+R\cos\theta")
+        t[0][2:4].set_color(YELLOW)
+        t[0][0].set_color(ORANGE)
+        t[0][5].set_color(MAROON)
+        t[0][6:10].set_color(RED)
+        self.play(GrowFromCenter(b))
+        self.play(TransformFromCopy(punto[0][1], t[0][0]))
+        self.play(Create(t[0][1]))
+        self.play(TransformFromCopy(x[0][0], t[0][2]), TransformFromCopy(x[0][1], t[0][3]))
+        self.play(Write(t[0][4]))
+        self.play(TransformFromCopy(cos[0][0], t[0][5]), TransformFromCopy(cos[0][1], t[0][6]), TransformFromCopy(cos[0][2], t[0][7]),
+                  TransformFromCopy(cos[0][3], t[0][8]), TransformFromCopy(cos[0][4], t[0][9]))
+        self.wait(1)
+        self.play(xc2.animate.shift((2.5) * LEFT), ly2.animate.shift((2.5 + 1.8 * np.cos(PI / 6)) * LEFT))
+        yy = VGroup(xc2, ly2, y)
+        b2 = Brace(mobject=yy, direction=LEFT).set_color(ORANGE)
+        t2 = b2.get_tex(r"y=y_c+R\sin\theta")
+        t2[0][2:4].set_color(YELLOW)
+        t2[0][0].set_color(ORANGE)
+        t2[0][5].set_color(MAROON)
+        t2[0][6:10].set_color(RED)
+        self.play(GrowFromCenter(b2))
+        self.play(TransformFromCopy(punto[0][3], t2[0][0]))
+        self.play(Create(t2[0][1]))
+        self.play(TransformFromCopy(y[0][0], t2[0][2]), TransformFromCopy(y[0][1], t2[0][3]))
+        self.play(Write(t2[0][4]))
+        self.play(TransformFromCopy(sin[0][0], t2[0][5]), TransformFromCopy(sin[0][1], t2[0][6]), TransformFromCopy(sin[0][2], t2[0][7]),
+                  TransformFromCopy(sin[0][3], t2[0][8]), TransformFromCopy(sin[0][4], t2[0][9]))
+        self.wait(1)
+        self.play(t.animate.move_to(4 * LEFT + 3 * UP), t2.animate.move_to(4 * LEFT + 2 * UP))
+        T = VGroup(t, t2)
+        bb = Brace(mobject=T, direction=LEFT)
+        self.play(GrowFromCenter(bb))
+        br = VGroup(bb, t, t2)
+        R = SurroundingRectangle(br)
+        self.play(Create(R))
+        self.wait(1)
+        self.play(Uncreate(R))
+        self.wait(1)
+        gruppone = VGroup(lx, ly, lx2, ly2, xc, yc, x, y, xc2, yc2, l, punto, b, b2, cos, sin, px, py)
+        self.play(FadeOut(gruppone))
+        self.wait(1)
+        C = c.copy().set_color_by_gradient(ORANGE, PURPLE)
+        L = l.copy().set_color(BLUE)
+        self.play(GrowFromCenter(C, run_time=4), Create(L, run_time=4))
+        planedot = VGroup(*list(VGroup(*list(
+            Dot((2.5 + 1.8 * j / 5 * np.cos(TAU * i / 25), 2.1 + 1.8 * j / 5 * np.sin(TAU * i / 25), 0)).scale(.5) for i
+            in range(0, 26))) for j in range(0, 6))).set_color(PURPLE)
+        self.play(FadeOut(C), FadeOut(L), FadeOut(c))
+        self.play(GrowFromCenter(planedot))
+        self.wait(1)
+        self.play(FadeToColor(t[0][0], PURPLE), FadeToColor(t2[0][0], PURPLE))
+        linea = Line(planedot[0][0], planedot[3][3]).set_color(BLUE)
+        rho = MathTex(r"\rho").next_to(linea).set_color(BLUE)
+        self.play(Create(linea), FadeIn(rho))
+        rho2 = rho.copy()
+        rho2.move_to(t[0][5].get_center() + .1 * DOWN)
+        rho3 = rho.copy()
+        rho3.move_to(t2[0][5].get_center() + .1 * DOWN)
+        rho.add_updater(lambda m: m.next_to(linea))
+        self.play(Transform(t[0][5], rho2), Transform(t2[0][5], rho3))
+        for i in range(0, 4):
+            nuovalinea = Line(planedot[0][0], planedot[i + 1][i + 10]).set_color(BLUE)
+            self.play(Transform(linea, nuovalinea))
+            self.wait(.3)
+        sep = Rectangle(width=.15, height=8.5, color=WHITE, stroke_width=0).next_to(axes, buff=2.2).set_fill(GREY,opacity=1)
+        axes2 = ThreeDAxes().move_to((9, 0, 0))
+        rho4 = MathTex(r"\theta").set_color(GREY).move_to(axes2).shift(3.5 * UP + 1 * LEFT)
+        theta2 = MathTex(r"\rho").set_color(GREY).next_to(axes2, buff=0).shift(.6 * LEFT + .2 * UP)
+        R2 = MathTex(r"R").set_color(MAROON).move_to((4 + 9, -.3, 0))
+        tau = MathTex(r"2\pi").set_color(GREEN).move_to((-.4 + 9, 3, 0))
+        self.add(axes2, rho4, theta2, R2, tau)
+        testo = Text("极坐标系").scale(1.2).move_to((13.5, 3.5, 0)).set_color(GREY)
+        GRUPPONE1 = VGroup(linea, planedot, axes, sep, axes2, rho4, theta2, R2, tau)
+        GRUPPONE2 = VGroup(sep, axes2, rho4, theta2, R2, tau, testo)
+        self.play(GRUPPONE1.animate.shift(6 * LEFT), GRUPPONE2.animate.shift(8 * LEFT),
+                  br.animate.shift(5 * DOWN + 1 * RIGHT),
+                  rho2.animate.shift(5 * DOWN + 1 * RIGHT),
+                  rho3.animate.shift(5 * DOWN + 1 * RIGHT))
+        self.wait(1)
+        self.play(FadeOut(rho), FadeOut(linea))
+        planedot2 = VGroup(*list(VGroup(*list(Dot((4 * i / 25, 3 * j / 5, 0)).scale(.5) for i in range(0, 26))) for j in
+                                 range(0, 6))).set_color(PURPLE).shift(1 * RIGHT)
+        self.play(TransformFromCopy(planedot, planedot2), run_time=3)
+        self.wait(1)
+        rett = Rectangle(width=.01, height=3, color=PURPLE).move_to(planedot2).set_fill(PURPLE, opacity=.5).shift(
+            1.99 * LEFT)
+        rett2 = Rectangle(width=4, height=3, color=PURPLE).move_to(planedot2).set_fill(PURPLE, opacity=.5)
+        C2 = C.copy().move_to(planedot)
+        self.play(FadeOut(planedot), FadeOut(planedot2), FadeIn(rett))
+        self.play(GrowFromCenter(C2, run_time=4), Transform(rett, rett2, run_time=4))
+        self.wait(2)
+
+        def ano(dtheta=TAU):
+            return Sector(inner_radius=1, outer_radius=1.8, angle=dtheta, color=PURPLE, stroke_width=4).move_to(
+                C2).set_fill(PURPLE, opacity=.5)
+
+        cc = ano()
+        rettcc = Rectangle(width=1.6, height=3, color=PURPLE).move_to(rett2).set_fill(PURPLE, opacity=.5).shift(
+            1.2 * RIGHT)
+
+        def update_theta(cc, alpha):
+            dtheta = interpolate(TAU, TAU - PI / 1.7, alpha)
+            dt = ano(dtheta)
+            cc.become(dt)
+
+        oR = Line((2.5, 2.1, 0), (2.5 + 1.8, 2.1, 0)).set_color(BLUE).shift(6 * LEFT)
+        iR = Line((2.5, 2.1, 0), (2.5, 3.075, 0)).set_color(BLUE).shift(6 * LEFT)
+        rho1 = MathTex(r"\rho_1").set_color(BLUE).next_to(iR, LEFT)
+        rho11 = rho1.copy().next_to(R2, LEFT, buff=1.2)
+        rr = MathTex(r"\rho_2").set_color(BLUE).next_to(oR, DOWN)
+        rrr = rr.copy().move_to(R2)
+        self.play(ReplacementTransform(C2, cc), Transform(rett, rettcc), run_time=2)
+        self.play(Create(oR), Create(iR))
+        self.play(FadeIn(rho1), FadeIn(rho11), FadeIn(rr), Transform(R2, rrr))
+        self.wait(1)
+        bastah = Rectangle(width=1.6, height=2, color=PURPLE).move_to(rett2).set_fill(PURPLE, opacity=.5).shift(
+            1.2 * RIGHT + .5 * DOWN)
+        dl = DashedLine((2.5, 2.075, 0),
+                        (2.5 + 1.8 * np.cos(TAU - PI / 1.7), 2.1 + 1.8 * np.sin(TAU - PI / 1.7), 0)).set_color(
+            YELLOW).shift(6 * LEFT)
+        angl = Sector(outer_radius=.28, angle=TAU - PI / 1.7).set_color(YELLOW).fade(.7).move_to(
+            c.get_center() + .5 * RIGHT).shift(6.5 * LEFT + .05 * DOWN)
+        self.play(iR.animate.shift(0.025 * DOWN), oR.animate.shift(0.05 * DOWN), UpdateFromAlphaFunc(cc, update_theta),
+                  Transform(rett, bastah), run_time=2)
+        ddl = DashedLine((0, 2, 0), (4, 2, 0)).set_color(YELLOW).next_to(bastah, LEFT, buff=0).shift(UP + 1.59 * RIGHT)
+        self.play(Create(dl), Create(ddl))
+        self.play(Create(angl), run_time=1.5)
+        thth = MathTex(r"\theta").set_color(YELLOW).next_to(angl, LEFT)
+        tthh = thth.copy().next_to(ddl, LEFT)
+        self.play(FadeIn(thth), Transform(tau, tthh))
         self.wait(1)

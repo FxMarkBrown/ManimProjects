@@ -12,7 +12,7 @@ def get_cube(color=GREEN, opacity=1, height=2):
     cube.set_height(height)
     return cube
 
-
+#   部分代码取自3b1b魔群动画源码
 class SymmetriesOfACube(ThreeDScene):
     def construct(self):
         # Setup
